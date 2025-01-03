@@ -10,7 +10,7 @@ COPY notification_service.py /app
 RUN pip install flask pymysql boto3
 
 # Expose the port the application will run on
-EXPOSE 5001
+EXPOSE 5000
 
 # Define the command to run the application
 CMD ["python", "notification_service.py"]
