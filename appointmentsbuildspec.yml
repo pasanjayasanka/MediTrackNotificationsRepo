@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "skipped Docker is preinstalled."
+  build:
+    commands:
+      # Authenticate Docker to ECR
+      - echo "Logging into Amazon ECR..."
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 225989377732.dkr.ecr.us-east-1.amazonaws.com
+
+      # Build Docker image for the notification service
+      - echo "Building Docker image for notification service..."
+      - docker build -t medi_track_notification ./notification
+
+      # Tag and push the notification service image to ECR
+      - echo "Tagging and pushing Docker image for notification service..."
+      - docker tag medi_track_notification:latest 225989377732.dkr.ecr.us-east-1.amazonaws.com/medi_track_notification:latest
+
+      - docker push 225989377732.dkr.ecr.us-east-1.amazonaws.com/medi_track_notification:latest
